@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dist/alloy-editor/assets/alloy-editor-ocean-min.css";
-
+import * as icons from "./dist/alloy-editor/assets/icons/icons.svg";
+icons.ReactComponent.render({ title: "align-image-center" });
 const AlloyEditorComponent = ({ alloyEditorConfig = {} }) => {
   const [_editor, _setEditor] = useState();
   const attached = useRef(false);
@@ -10,44 +11,49 @@ const AlloyEditorComponent = ({ alloyEditorConfig = {} }) => {
     if (!document.getElementById("editable")) return;
     if (attached.current) return;
     if (_editor) return;
-    if (!window.AlloyEditor || Object.keys(window.AlloyEditor).length === 0) return;
+    if (!window.AlloyEditor || Object.keys(window.AlloyEditor).length === 0)
+      return;
     attached.current = true;
 
-    var selections = window.AlloyEditor.Selections;
-    var toolbars = {
-      styles: {
-        selections: selections,
-        tabIndex: 1,
-      },
-    };
-    var textButtons = selections[3].buttons; // ['styles', 'bold, 'italic', 'underline', 'link', twitter']
-    var customButtons = textButtons.concat("font"); // ['styles', 'bold, 'italic', 'underline', 'link', twitter', 'FontFamily', 'FontSize']
-
-    selections[3].buttons = window.AlloyEditor.getButtons(customButtons);
     _setEditor(
       window.AlloyEditor.editable("editable", {
         language: "ko",
         uiColor: "#AADC6E",
         toolbars: {
           add: {
-            buttons: [
-              "styles",
-              "bold",
-              "italic",
-              "underline",
-              "link",
-              "twitter",
-              "FontFamily",
-              "FontSize",
-            ],
+            buttons: ["imageFromFile", "embed", "camera", "hline", "table"],
             tabIndex: 2,
           },
           styles: {
             selections: [
               {
                 name: "text",
-                buttons: ["code"],
+                buttons: [
+                  "styles",
+                  "bold",
+                  "italic",
+                  "underline",
+                  "link",
+                  "twitter",
+                  "FontFamily",
+                  "FontSize",
+                  "Copy",
+                  "Cut",
+                  "paragraphLeft",
+                  "paragraphJustify",
+                  "paragraphRight",
+                ],
                 test: window.AlloyEditor.SelectionTest.text,
+              },
+              {
+                name: "image",
+                buttons: [
+                  "imageLeft",
+                  "imageCenter",
+                  "imageRight",
+                  "removeImage",
+                ],
+                test: window.AlloyEditor.SelectionTest.image,
               },
             ],
             tabIndex: 1,
@@ -55,6 +61,7 @@ const AlloyEditorComponent = ({ alloyEditorConfig = {} }) => {
         },
       })
     );
+    console.log(window.AlloyEditor);
   }, [
     Object.keys(window.AlloyEditor || {}).length,
     document.getElementById("editable"),

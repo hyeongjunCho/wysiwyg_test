@@ -41,6 +41,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <h1>Editorjs</h1>
       <div className={`react-editor-container`}>
         {/* <ReactEditorJS
           onInitialize={handleInitialize}

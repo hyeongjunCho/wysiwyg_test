@@ -26,10 +26,14 @@ export const EDITOR_JS_TOOLS = {
          */
         uploadByFile(file) {
           // your own uploading logic here
+          const blob = new Blob([file])
+
+          // url for download
+          const url = URL.createObjectURL(blob, {type: "image/png"});
           return {
             success: 1,
             file: {
-              url: "https://codex.so/upload/redactor_images/o_80beea670e49f04931ce9e3b2122ac70.jpg",
+              url,
               // any other image data you want to store, such as width, height, color, extension, etc
             },
           };
@@ -45,7 +49,7 @@ export const EDITOR_JS_TOOLS = {
           return {
             success: 1,
             file: {
-              url: "https://codex.so/upload/redactor_images/o_e48549d1855c7fc1807308dd14990126.jpg",
+              url,
               // any other image data you want to store, such as width, height, color, extension, etc
             },
           };
